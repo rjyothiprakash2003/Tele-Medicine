@@ -28,17 +28,29 @@ jobs:
       AI_PROVIDER: mock
     steps:
       - uses: actions/checkout@v4
+      # version comes from package.json "packageManager": "pnpm@9.15.0"
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @telemedicine/shared build
-      - run: pnpm --filter @telemedicine/api prisma:generate
-      - run: pnpm --filter @telemedicine/api exec prisma migrate deploy
-      - run: pnpm --filter @telemedicine/api test
-      - run: pnpm --filter @telemedicine/api build
-      - run: pnpm --filter @telemedicine/web build
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build shared package
+        run: pnpm --filter @telemedicine/shared build
+      - name: Generate Prisma client
+        working-directory: apps/api
+        run: pnpm prisma:generate
+      - name: Run database migrations
+        working-directory: apps/api
+        run: pnpm exec prisma migrate deploy
+      - name: Unit tests
+        run: pnpm --filter @telemedicine/api test
+      - name: Build API
+        run: pnpm --filter @telemedicine/api build
+      - name: Build web
+        run: pnpm --filter @telemedicine/web build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1
+          NEXT_PUBLIC_APP_NAME: TELEMEDICINE AI
+          NEXT_PUBLIC_EMERGENCY_NUMBER: 112
