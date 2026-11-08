@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tmai-postgres
+    environment:
+      POSTGRES_USER: telemedicine
+      POSTGRES_PASSWORD: telemedicine
+      POSTGRES_DB: telemedicine
+    ports:
+      - "5432:5432"
+    volumes:
+      - tmai_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U telemedicine -d telemedicine"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: tmai-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - tmai_redis:/data
+
+volumes:
+  tmai_pg:
+  tmai_redis:

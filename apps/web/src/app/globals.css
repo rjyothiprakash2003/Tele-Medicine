@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-a: #ecfdf8;
+  --bg-b: #f8fafc;
+  --bg-c: #e2e8f0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  color: #0f172a;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, var(--bg-a), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, #ccfbf1, transparent 55%),
+    linear-gradient(180deg, var(--bg-b), var(--bg-c));
+}
+
+.prose-legal h2 {
+  @apply mt-8 mb-3 font-display text-2xl text-ink-900;
+}
+
+.prose-legal p {
+  @apply mb-3 text-ink-700 leading-relaxed;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  70% { transform: scale(1.05); opacity: 0.2; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+.avatar-speaking::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  border: 2px solid rgb(15 158 133 / 0.45);
+  animation: pulse-ring 1.6s ease-out infinite;
+}

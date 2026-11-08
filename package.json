@@ -1,0 +1,24 @@
+{
+  "name": "telemedicine-ai",
+  "version": "1.1.0",
+  "private": true,
+  "description": "TELEMEDICINE AI — AI-first healthcare information and consultation platform",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter @telemedicine/api --filter @telemedicine/web dev",
+    "dev:api": "pnpm --filter @telemedicine/api dev",
+    "dev:web": "pnpm --filter @telemedicine/web dev",
+    "build": "pnpm --filter @telemedicine/shared build && pnpm --filter @telemedicine/api build && pnpm --filter @telemedicine/web build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "test:unit": "pnpm --filter @telemedicine/api test",
+    "db:generate": "pnpm --filter @telemedicine/api prisma:generate",
+    "db:migrate": "pnpm --filter @telemedicine/api prisma:migrate",
+    "db:seed": "pnpm --filter @telemedicine/api prisma:seed",
+    "db:studio": "pnpm --filter @telemedicine/api prisma:studio",
+    "typecheck": "pnpm -r typecheck"
+  }
+}
